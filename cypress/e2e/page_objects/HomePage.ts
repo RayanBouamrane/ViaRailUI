@@ -2,9 +2,9 @@
 /// <reference types="cypress-xpath" />
 
 const letMeHackButton = "//button[contains(text(),'Let me hack!')]";
-const usernameField = "//input[@placeholder='Username']";
-const passwordField = "//input[@placeholder='Password']";
-const loginButton = "//button[contains(text(),'Login')]";
+const usernameField = "#username";
+const passwordField = "#password";
+const loginButton = "#doLogin";
 
 export default class HomePage {
 
