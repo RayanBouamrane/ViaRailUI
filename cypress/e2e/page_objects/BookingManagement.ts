@@ -54,7 +54,7 @@ export default class BookingManagement {
     }
 
     static clickFrontPage() {
-        cy.xpath(frontPageTab).click();
+        cy.get(frontPageTab).click();
         cy.log('Click Front Page');
         return this;
     }
@@ -66,27 +66,27 @@ export default class BookingManagement {
     }
 
     static fillRoomNumber(roomNumberString: string) {
-        cy.xpath(roomNumber).clear();
-        cy.xpath(roomNumber).type(roomNumberString);
+        cy.get(roomNumber).clear();
+        cy.get(roomNumber).type(roomNumberString);
         cy.log('Fill room number with ${roomNumberString}');
         return this;
     }
 
     static selectRoomType(roomTypeString: string) {
-        cy.xpath(roomType).select(roomTypeString, { force: true }).should('have.value', roomTypeString);
+        cy.get(roomType).select(roomTypeString, { force: true }).should('have.value', roomTypeString);
         cy.log('Selected ${roomTypeString} as room type');
         return this;
     }
 
     static selectAccessibility(roomAccessibilityString: string) {
-        cy.xpath(roomAccessibility).select(roomAccessibilityString, { force: true }).should('have.value', roomAccessibilityString);
+        cy.get(roomAccessibility).select(roomAccessibilityString, { force: true }).should('have.value', roomAccessibilityString);
         cy.log('Selected ${roomAccessibilityString} as accessibility');
         return this;
     }
 
     static fillRoomPrice(roomPriceString: string) {
-        cy.xpath(roomPrice).clear();
-        cy.xpath(roomPrice).type(roomPriceString);
+        cy.get(roomPrice).clear();
+        cy.get(roomPrice).type(roomPriceString);
         cy.log('Fill room price with ${roomPriceString}');
         return this;
     }
@@ -127,47 +127,57 @@ export default class BookingManagement {
         return this;
     }
 
+    static clickRoomDetails(roomDetails: string[]) {
+        if (roomDetails.find(element => element == "WiFi")) { this.clickWiFi() }
+        if (roomDetails.find(element => element == "TV")) { this.clickTV() }
+        if (roomDetails.find(element => element == "Radio")) { this.clickRadio() }
+        if (roomDetails.find(element => element == "Refreshments")) { this.clickRefreshments() }
+        if (roomDetails.find(element => element == "Safe")) { this.clickSafe() }
+        if (roomDetails.find(element => element == "Views")) { this.clickViews() }
+        return this;
+    }
+
     static clickCreateRoom() {
-        cy.xpath(createRoom).click();
+        cy.get(createRoom).click();
         cy.log('Click Create Room');
         return this;
     }
 
     static validateXthRoomNumber(row: number, roomNumberString: string) {
         let path: string = "#room" + (row - 1) + " > .col-sm-1:nth-child(1)";
-        cy.xpath(path).contains(roomNumberString);
+        cy.get(path).contains(roomNumberString);
         return this;
     }
 
     static validateXthRoomType(row: number, roomTypeString: string) {
         let path: string = "#room" + (row - 1) + " > .col-sm-2:nth-child(2)";
-        cy.xpath(path).contains(roomTypeString);
+        cy.get(path).contains(roomTypeString);
         return this;
     }
 
     static validateXthRoomAccessibility(row: number, roomAccessibilityString: string) {
         let path: string = "#room" + (row - 1) + " > .col-sm-2:nth-child(3)";
-        cy.xpath(path).contains(roomAccessibilityString);
+        cy.get(path).contains(roomAccessibilityString);
         return this;
     }
 
     static validateXthRoomPrice(row: number, roomPriceString: string) {
         let path: string = "#room" + (row - 1) + " > .col-sm-1:nth-child(4)";
-        cy.xpath(path).contains(roomPriceString);
+        cy.get(path).contains(roomPriceString);
         return this;
     }
 
-    static validateXthRoomRefreshments(row: number, roomRefreshmentsList: string[]) {
+    static validateXthRoomDetails(row: number, roomDetailsList: string[]) {
         let path: string = "#room" + (row - 1) + " > .col-sm-5";
-        for (let i = 0; i < roomRefreshmentsList.length; i++) {
-            cy.xpath(path).contains(roomRefreshmentsList[i]);
+        for (let i = 0; i < roomDetailsList.length; i++) {
+            cy.get(path).contains(roomDetailsList[i]);
         }
         return this;
     }
 
     static deleteXthRoom(row: number) {
         let path: string = "#room" + (row - 1) + " > .col-sm-1:nth-child(6)";
-        cy.xpath(path).click();
+        cy.get(path).click();
         cy.log('Deleted room in row ${row}');
         return this;
     }

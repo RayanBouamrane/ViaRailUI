@@ -1,12 +1,19 @@
 /// <reference types="cypress"/>
 /// <reference types="cypress-xpath" />
 
+const homeURL = "https://automationintesting.online/#/admin/";
+
 const letMeHackButton = "//button[contains(text(),'Let me hack!')]";
 const usernameField = "#username";
 const passwordField = "#password";
 const loginButton = "#doLogin";
 
 export default class HomePage {
+
+    static goToHomepage() {
+        cy.visit(homeURL);
+        return this;
+    }
 
     static clickLetMeHack() {
         cy.xpath(letMeHackButton).click();
@@ -15,23 +22,22 @@ export default class HomePage {
     }
 
     static fillUsernameField(username: string) {
-        cy.xpath(usernameField).clear();
-        cy.xpath(usernameField).type(username);
+        cy.get(usernameField).clear();
+        cy.get(usernameField).type(username);
         cy.log('Fill username with ${username}');
         return this;
     }
 
     static fillPasswordField(password: string) {
-        cy.xpath(passwordField).clear();
-        cy.xpath(passwordField).type(password);
+        cy.get(passwordField).clear();
+        cy.get(passwordField).type(password);
         cy.log('Fill password');
         return this;
     }
 
     static clickLogin() {
-        cy.xpath(loginButton).click();
+        cy.get(loginButton).click();
         cy.log('Click login');
         return this;
     }
-
 }
