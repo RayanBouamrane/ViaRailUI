@@ -5,13 +5,18 @@ import BookingManagement from "../page_objects/BookingManagement";
 
 export default class BookingWorkflow {
 
+    static clearAllRooms() {
+        BookingManagement
+            .deleteAllRooms();
+    }
+
     static createRoom(roomNumber: string, roomType: string, roomAccessibility: string, roomPrice: string, roomDetails: string[]) {
         BookingManagement
             .fillRoomNumber(roomNumber)
             .selectRoomType(roomType)
             .selectAccessibility(roomAccessibility)
             .fillRoomPrice(roomPrice)
-            // .clickRoomDetails(roomDetails)
+            .clickRoomDetails(roomDetails)
             .clickCreateRoom();
     }
 
@@ -21,6 +26,6 @@ export default class BookingWorkflow {
             .validateXthRoomType(row, roomType)
             .validateXthRoomAccessibility(row, roomAccessibility)
             .validateXthRoomPrice(row, roomPrice)
-            // .validateXthRoomDetails(row, roomDetails);
+            .validateXthRoomDetails(row, roomDetails);
     }
 }

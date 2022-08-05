@@ -16,22 +16,24 @@ export default class HomePage {
     }
 
     static clickLetMeHack() {
-        cy.xpath(letMeHackButton).click();
+        cy.scrollTo('top');
+        cy.xpath(letMeHackButton).click({ force: true });
         cy.log('Click "Let me hack!"');
         return this;
     }
 
     static fillUsernameField(username: string) {
-        cy.get(usernameField).clear();
+        // cy.get(usernameField).type(username);
+        // // cy.log('Fill username with ${username}');
+
+        cy.get(usernameField).click();
         cy.get(usernameField).type(username);
-        cy.log('Fill username with ${username}');
         return this;
     }
 
     static fillPasswordField(password: string) {
-        cy.get(passwordField).clear();
         cy.get(passwordField).type(password);
-        cy.log('Fill password');
+        // cy.log('Fill password');
         return this;
     }
 

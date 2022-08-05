@@ -20,6 +20,8 @@ const roomDetailsRefreshments = "//label[contains(text(),'Refreshments')]";
 const roomDetailsSafe = "//label[contains(text(),'Safe')]";
 const roomDetailsViews = "//label[contains(text(),'Views')]";
 const createRoom = "#createRoom";
+const deleteRoom = "//span[contains(@class, 'roomDelete')]";
+const roomNumberHeader = "//p[contains(text(),'Room #')]";
 
 export default class BookingManagement {
 
@@ -66,7 +68,6 @@ export default class BookingManagement {
     }
 
     static fillRoomNumber(roomNumberString: string) {
-        cy.get(roomNumber).clear();
         cy.get(roomNumber).type(roomNumberString);
         cy.log('Fill room number with ${roomNumberString}');
         return this;
@@ -85,7 +86,6 @@ export default class BookingManagement {
     }
 
     static fillRoomPrice(roomPriceString: string) {
-        cy.get(roomPrice).clear();
         cy.get(roomPrice).type(roomPriceString);
         cy.log('Fill room price with ${roomPriceString}');
         return this;
@@ -139,36 +139,37 @@ export default class BookingManagement {
 
     static clickCreateRoom() {
         cy.get(createRoom).click();
+        cy.wait(1000);
         cy.log('Click Create Room');
         return this;
     }
 
     static validateXthRoomNumber(row: number, roomNumberString: string) {
-        let path: string = "#room" + (row - 1) + " > .col-sm-1:nth-child(1)";
+        let path: string = ".container > div > div > div > div:nth-child(" + (row + 1) + ") > div > div:nth-child(1)";
         cy.get(path).contains(roomNumberString);
         return this;
     }
 
     static validateXthRoomType(row: number, roomTypeString: string) {
-        let path: string = "#room" + (row - 1) + " > .col-sm-2:nth-child(2)";
+        let path: string = ".container > div > div > div > div:nth-child(" + (row + 1) + ") > div > div:nth-child(2)";
         cy.get(path).contains(roomTypeString);
         return this;
     }
 
     static validateXthRoomAccessibility(row: number, roomAccessibilityString: string) {
-        let path: string = "#room" + (row - 1) + " > .col-sm-2:nth-child(3)";
+        let path: string = ".container > div > div > div > div:nth-child(" + (row + 1) + ") > div > div:nth-child(3)";
         cy.get(path).contains(roomAccessibilityString);
         return this;
     }
 
     static validateXthRoomPrice(row: number, roomPriceString: string) {
-        let path: string = "#room" + (row - 1) + " > .col-sm-1:nth-child(4)";
+        let path: string = ".container > div > div > div > div:nth-child(" + (row + 1) + ") > div > div:nth-child(4)";
         cy.get(path).contains(roomPriceString);
         return this;
     }
 
     static validateXthRoomDetails(row: number, roomDetailsList: string[]) {
-        let path: string = "#room" + (row - 1) + " > .col-sm-5";
+        let path: string = ".container > div > div > div > div:nth-child(" + (row + 1) + ") > div > div:nth-child(5)";
         for (let i = 0; i < roomDetailsList.length; i++) {
             cy.get(path).contains(roomDetailsList[i]);
         }
@@ -176,9 +177,17 @@ export default class BookingManagement {
     }
 
     static deleteXthRoom(row: number) {
-        let path: string = "#room" + (row - 1) + " > .col-sm-1:nth-child(6)";
+        let path: string = ".container > div > div > div > div:nth-child(" + (row + 1) + ") > div > div:nth-child(6)";
         cy.get(path).click();
         cy.log('Deleted room in row ${row}');
         return this;
     }
+
+    static deleteAllRooms() {
+        cy.xpath(roomNumberHeader, { timeout: 10000 }).should('be.visible');
+        cy.xpath(deleteRoom).click({ multiple: true });
+        cy.log('Deleted all rooms');
+        return this;
+    }
+
 }
